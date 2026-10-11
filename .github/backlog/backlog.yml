@@ -1,0 +1,778 @@
+# Product backlog for the Bank Management System.
+#
+# This file is the single source of truth for epics, stories, story points and
+# sprint planning. The "Backlog Sync" workflow (.github/workflows/backlog-sync.yml)
+# turns it into GitHub issues, milestones, labels, sub-issue links and Project
+# fields. Edit this file (via a PR) instead of editing generated issues by hand;
+# re-running the workflow updates the existing issues in place.
+#
+# Requirement IDs (FR-n, NFR-n, TBD-n) refer to SRS v1.0; SEC-n refers to the
+# Software Architecture & Design Specification v1.0.
+
+project:
+  title: "Bank Management System"
+  description: "Product backlog and sprint board for the Bank Management System mini-project."
+
+sprints:
+  - key: S0
+    title: "Sprint 0 - Dry Run"
+    start: 2026-10-12
+    days: 5
+    description: "Practice sprint (12-16 Oct). Project skeleton, database, CI and tech-stack decisions so Sprint 1 can start building features immediately."
+  - key: S1
+    title: "Sprint 1"
+    start: 2026-10-19
+    days: 5
+    description: "19-23 Oct. Working product: login, RBAC, customers, account opening, deposit, withdrawal, transfer, balance view. Ends with a 1-minute demo video."
+  - key: S2
+    title: "Sprint 2"
+    start: 2026-10-26
+    days: 5
+    description: "26-30 Oct. Remaining features, NFR verification, documentation completion and the 2-minute demo video. Development freeze at end of sprint."
+
+# Task sets offered to team members. Owners are mapped in assignees.yml.
+sets:
+  lead: "Lead - Platform, Security & Integration"
+  m1: "Set 1 - Identity, Administration & UI"
+  m2: "Set 2 - Customers & Accounts"
+  m3: "Set 3 - Transactions & Reporting"
+
+labels:
+  - { name: "epic",             color: "3E4B9E", description: "Epic: groups related stories" }
+  - { name: "story",            color: "0E8A16", description: "User story / backlog item" }
+  - { name: "priority: high",   color: "B60205", description: "SRS priority High" }
+  - { name: "priority: medium", color: "FBCA04", description: "SRS priority Medium" }
+  - { name: "priority: low",    color: "C2E0C6", description: "SRS priority Low" }
+  - { name: "area: devops",       color: "5319E7", description: "Build, CI/CD, repository setup" }
+  - { name: "area: auth",         color: "1D76DB", description: "Authentication, sessions, RBAC" }
+  - { name: "area: customer",     color: "0052CC", description: "Customer record management" }
+  - { name: "area: account",      color: "006B75", description: "Account management" }
+  - { name: "area: transactions", color: "0E8A16", description: "Deposits, withdrawals, transfers" }
+  - { name: "area: reporting",    color: "C5DEF5", description: "Balances, history, interest, statements" }
+  - { name: "area: staff",        color: "BFD4F2", description: "Staff management and dashboards" }
+  - { name: "area: security",     color: "D93F0B", description: "Security and audit trail" }
+  - { name: "area: frontend",     color: "F9D0C4", description: "Web front end" }
+  - { name: "area: testing",      color: "FEF2C0", description: "Testing and NFR verification" }
+  - { name: "area: docs",         color: "0075CA", description: "Documentation and demos" }
+  - { name: "points: 1", color: "EDEDED", description: "Story points" }
+  - { name: "points: 2", color: "EDEDED", description: "Story points" }
+  - { name: "points: 3", color: "EDEDED", description: "Story points" }
+  - { name: "points: 5", color: "EDEDED", description: "Story points" }
+  - { name: "points: 8", color: "EDEDED", description: "Story points" }
+  - { name: "set: lead", color: "000000", description: "Task set: Lead" }
+  - { name: "set: 1",    color: "6F42C1", description: "Task set 1" }
+  - { name: "set: 2",    color: "2DA44E", description: "Task set 2" }
+  - { name: "set: 3",    color: "BF8700", description: "Task set 3" }
+
+epics:
+  - id: E-01
+    title: "Project Setup & DevOps"
+    area: devops
+    priority: high
+    refs: ["SRS 2.5", "SRS 6", "TBD-1", "TBD-6", "NFR-8", "NFR-9"]
+    description: "Tech-stack decision, repository skeleton, database schema, API server and front-end shells, and CI so features can be built in parallel."
+  - id: E-02
+    title: "Authentication & Session Management"
+    area: auth
+    priority: high
+    refs: ["FR-1", "FR-2", "NFR-4", "SEC-1", "SEC-2"]
+    description: "Secure login for all three roles, sessions and logout, account lockout and role-based access control enforced in the C/C++ core."
+  - id: E-03
+    title: "Customer Record Management"
+    area: customer
+    priority: high
+    refs: ["FR-3"]
+    description: "Create, view, update and deactivate customer records with unique customer identifiers."
+  - id: E-04
+    title: "Account Management"
+    area: account
+    priority: high
+    refs: ["FR-4", "FR-5", "TBD-2", "TBD-3"]
+    description: "Account types, opening accounts with a minimum initial deposit, and freezing, unfreezing and closing accounts."
+  - id: E-05
+    title: "Deposit & Withdrawal Transactions"
+    area: transactions
+    priority: high
+    refs: ["FR-6", "FR-7", "NFR-3"]
+    description: "Atomic deposits and withdrawals with minimum-balance and daily-limit validation."
+  - id: E-06
+    title: "Fund Transfer"
+    area: transactions
+    priority: high
+    refs: ["FR-8", "NFR-3"]
+    description: "Atomic transfers between two accounts recorded as two linked transaction entries."
+  - id: E-07
+    title: "Balance Inquiry & Transaction History"
+    area: reporting
+    priority: high
+    refs: ["FR-9", "FR-10"]
+    description: "Balance views and filterable transaction history, scoped to what each role may see."
+  - id: E-08
+    title: "Interest Computation & Account Statements"
+    area: reporting
+    priority: medium
+    refs: ["FR-11", "FR-12", "TBD-5"]
+    description: "Periodic interest crediting without duplicates, and printable/downloadable account statements."
+  - id: E-09
+    title: "Staff Management & Role Dashboards"
+    area: staff
+    priority: medium
+    refs: ["FR-13", "FR-14"]
+    description: "Administrator management of Bank Officer accounts and role-specific dashboards."
+  - id: E-10
+    title: "Security & Audit Trail"
+    area: security
+    priority: high
+    refs: ["NFR-4", "NFR-5", "SEC-3", "SEC-4", "SRS 3.4"]
+    description: "Append-only audit trail of every balance change, audit viewer, HTTPS and secrets hygiene."
+  - id: E-11
+    title: "Quality, Testing & NFR Verification"
+    area: testing
+    priority: medium
+    refs: ["NFR-1", "NFR-2", "NFR-6", "NFR-7", "NFR-9", "Test Plan 5-8"]
+    description: "Test framework, Test Plan execution, performance, portability, usability and input-validation hardening."
+  - id: E-12
+    title: "Documentation & Demos"
+    area: docs
+    priority: medium
+    refs: ["SRS", "SADS", "Test Plan"]
+    description: "Close gaps found in the submitted SRS, SADS and Test Plan, keep a deviations log, and record the sprint demo videos."
+
+stories:
+  # ---------------------------------------------------------------- Sprint 0
+  - id: S-01
+    epic: E-01
+    title: "Finalize tech stack and record the decision"
+    points: 1
+    sprint: S0
+    set: lead
+    priority: high
+    refs: ["TBD-1", "TBD-4", "TBD-6"]
+    story: "As the development team, we want an agreed tech stack so that everyone builds against the same tools from day one."
+    acceptance:
+      - "A decision record (docs/decisions/001-tech-stack.md) names the C++ standard, build system, HTTP/JSON libraries, database, password-hashing library, test framework and front-end approach."
+      - "Hosting for the demo (TBD-6) is decided."
+      - "README links to the decision record."
+    tasks:
+      - "Suggested starting point: C++17 + CMake, cpp-httplib + nlohmann/json, SQLite, libsodium (Argon2id), GoogleTest, plain HTML/CSS/JS served by the C++ server."
+      - "Confirm the choice with the team and write the decision record."
+  - id: S-02
+    epic: E-01
+    title: "Create the repository skeleton and build system"
+    points: 3
+    sprint: S0
+    set: lead
+    priority: high
+    refs: ["NFR-8", "NFR-9", "SRS 2.6"]
+    story: "As a developer, I want a modular project skeleton so that each team member can work in their own module without conflicts."
+    acceptance:
+      - "CMake project builds an empty server binary on Linux and Windows."
+      - "Back-end source is organised by functional area: auth, customer, account, transaction, reporting, staff, audit, common (NFR-8)."
+      - "frontend/, db/, docs/, tests/ folders exist."
+      - "README has build and run instructions."
+    tasks:
+      - "Top-level CMakeLists.txt with one library per module and a server executable."
+      - "Fetch third-party libraries via FetchContent or vendored headers."
+      - ".gitignore and .editorconfig."
+  - id: S-03
+    epic: E-01
+    title: "Design database schema, migrations and seed data"
+    points: 5
+    sprint: S0
+    set: m2
+    priority: high
+    refs: ["SRS 6", "SRS Appendix B", "TBD-2", "TBD-3", "NFR-3"]
+    story: "As a developer, I want the relational schema and seed data in place so that features can be built and tested against real tables."
+    acceptance:
+      - "Tables: users (all roles, with role, status, failed_attempts, password_hash), customers, account_types (min_balance, interest_rate, daily_withdrawal_limit), accounts, transactions (type, amount, resulting_balance, operator_id, transfer_ref), audit_log, interest_runs."
+      - "Foreign keys enforce the relationships listed in SRS Appendix B."
+      - "Seed script creates one Administrator, two Bank Officers, three Customers, Savings and Current account types, and accounts in active, frozen and closed states."
+      - "ER diagram committed under design/ (the SRS and SADS both reference this folder)."
+      - "TBD-2 and TBD-3 values are recorded in the decision log."
+    tasks:
+      - "Write db/schema.sql and db/seed.sql."
+      - "Add a small C++ DB wrapper (open, prepared statements, BEGIN/COMMIT/ROLLBACK helpers)."
+      - "Draw and export the ER diagram to design/."
+  - id: S-04
+    epic: E-01
+    title: "Set up the HTTP API server skeleton and error format"
+    points: 3
+    sprint: S0
+    set: lead
+    priority: high
+    refs: ["SRS 3.3", "SADS 3.2", "SADS 3.3"]
+    story: "As a developer, I want a running API server with a standard JSON error format so that every endpoint behaves consistently."
+    acceptance:
+      - "Server starts, serves GET /health, and serves the static front end."
+      - "A shared helper returns errors as { code, message, field? } with correct HTTP status codes (SADS 3.3)."
+      - "A router pattern exists so modules can register their own endpoints."
+      - "Unexpected exceptions return a generic 500 without internal details."
+    tasks:
+      - "Server bootstrap, config (port, DB path), JSON helpers."
+      - "Request-logging middleware that never logs request bodies on /auth routes."
+  - id: S-05
+    epic: E-01
+    title: "Build the web front-end shell and shared UI components"
+    points: 3
+    sprint: S0
+    set: m1
+    priority: high
+    refs: ["SRS 3.1", "NFR-6"]
+    story: "As a user, I want consistent navigation and layout across screens so that the system is easy to learn."
+    acceptance:
+      - "Base layout, navigation by role, and a shared API client that attaches the session token."
+      - "Reusable components: form field with inline error, data table, and a confirmation dialog showing account, amount and resulting balance (SRS 3.1)."
+      - "Login page markup with masked password field."
+      - "Works in Chrome and Firefox."
+    tasks:
+      - "frontend/ layout, CSS, api.js client."
+      - "Confirmation-dialog and toast/message components."
+  - id: S-06
+    epic: E-11
+    title: "Set up the unit-test framework and run it in CI"
+    points: 2
+    sprint: S0
+    set: m3
+    priority: high
+    refs: ["Test Plan 5.4", "NFR-9"]
+    story: "As a developer, I want unit tests to run automatically on every PR so that regressions are caught before merge."
+    acceptance:
+      - "Test framework integrated with CMake (ctest)."
+      - "At least one sample test per module folder."
+      - "CI workflow runs the tests on Ubuntu and Windows and fails the PR on test failure."
+      - "Tests can use a fresh, seeded temporary database."
+    tasks:
+      - "Add the test framework via FetchContent."
+      - "Test fixture that creates a temp DB from schema.sql + seed.sql."
+
+  # ---------------------------------------------------------------- Sprint 1
+  - id: S-07
+    epic: E-02
+    title: "Log in with user ID and password/PIN"
+    points: 5
+    sprint: S1
+    set: m1
+    priority: high
+    refs: ["FR-1", "NFR-4", "SEC-2", "TC-01", "TC-15"]
+    story: "As a registered user, I want to log in with my user ID and password/PIN so that I can reach the dashboard for my role."
+    acceptance:
+      - "POST /auth/login verifies the password against a salted hash (Argon2id/bcrypt) and returns a session token and the user's role."
+      - "Invalid credentials return a generic error; the reason (unknown user vs wrong password) is not revealed."
+      - "The front end redirects Administrators, Bank Officers and Customers to their own dashboard (placeholder pages are fine until S-25)."
+      - "Passwords never appear in logs, responses or the database in plain text."
+      - "Unit tests cover valid login, wrong password, unknown user, inactive user."
+    tasks:
+      - "Password hashing helper in auth module."
+      - "Login endpoint + login page wiring."
+  - id: S-08
+    epic: E-02
+    title: "Session handling and logout"
+    points: 3
+    sprint: S1
+    set: m1
+    priority: high
+    refs: ["FR-2", "SEC-1"]
+    story: "As a logged-in user, I want to log out so that nobody else can use my session."
+    acceptance:
+      - "Session tokens are random, stored server-side with an expiry, and validated on every protected request."
+      - "POST /auth/logout invalidates the token; later requests with it get 401."
+      - "Expired or unknown tokens get 401 and the UI returns to the login screen."
+      - "A middleware exposes the current user (id, role) to all module handlers."
+    tasks:
+      - "Session store table or in-memory map with expiry."
+      - "Auth middleware + logout button in the UI."
+  - id: S-09
+    epic: E-02
+    title: "Lock accounts after three failed logins; admin unlock"
+    points: 3
+    sprint: S1
+    set: m1
+    priority: high
+    refs: ["FR-2", "FR-13", "TC-02"]
+    story: "As the bank, we want accounts locked after three consecutive failed logins so that passwords cannot be brute-forced."
+    acceptance:
+      - "The third consecutive failure locks the account; a successful login resets the counter."
+      - "A locked account cannot log in even with the correct password, and the message tells the user to contact an Administrator."
+      - "An Administrator can unlock any locked user (customer or staff) via API and UI."
+      - "Unit tests cover lock, blocked login, and unlock."
+    tasks:
+      - "failed_attempts and locked status handling in login."
+      - "PATCH /users/{id}/unlock (Admin) + button in admin UI."
+  - id: S-10
+    epic: E-02
+    title: "Enforce role-based access control in the back-end core"
+    points: 5
+    sprint: S1
+    set: lead
+    priority: high
+    refs: ["FR-1", "NFR-4", "SEC-1", "SRS 5.5"]
+    story: "As the bank, we want every operation checked against the caller's role in the core so that the rules cannot be bypassed from the client."
+    acceptance:
+      - "A single permission table maps each operation to the roles allowed (SRS 5.5 business rules)."
+      - "Every endpoint calls the RBAC check in the core, not only the API layer; forbidden calls return 403."
+      - "Customers can only reach their own customer record, accounts and transactions."
+      - "Unauthorised attempts are recorded."
+      - "Tests send forbidden requests directly to the API (without the UI) and get 403."
+    tasks:
+      - "rbac::require(user, Operation) helper used by all modules."
+      - "Ownership check helper for customer-scoped resources."
+  - id: S-11
+    epic: E-03
+    title: "Register a new customer"
+    points: 3
+    sprint: S1
+    set: m2
+    priority: high
+    refs: ["FR-3", "TC-03", "TC-04"]
+    story: "As a Bank Officer, I want to register a new customer so that accounts can be opened for them."
+    acceptance:
+      - "POST /customers accepts name, date of birth, address, phone and identification reference."
+      - "Missing or invalid fields are rejected and the specific field is reported."
+      - "Each customer gets a unique customer ID; a login is created for the customer with initial credentials."
+      - "Only Administrators and Bank Officers may call it."
+      - "UI form with inline field errors."
+    tasks:
+      - "Validation rules (phone format, DOB in the past, required fields)."
+      - "Endpoint, core function, form, unit tests."
+  - id: S-12
+    epic: E-03
+    title: "Search, view and update customer records"
+    points: 3
+    sprint: S1
+    set: m2
+    priority: high
+    refs: ["FR-3"]
+    story: "As a Bank Officer, I want to find and edit a customer's details so that their records stay accurate."
+    acceptance:
+      - "GET /customers?query= searches by ID, name or phone; GET /customers/{id} returns details and their accounts."
+      - "PUT /customers/{id} updates details with the same validation as creation."
+      - "Unknown IDs return 404 with a clear message."
+      - "A Customer can view only their own profile."
+    tasks:
+      - "Customer list/search page and edit form."
+  - id: S-15
+    epic: E-04
+    title: "Open a new account for a customer"
+    points: 5
+    sprint: S1
+    set: m2
+    priority: high
+    refs: ["FR-4", "TC-05"]
+    story: "As a Bank Officer, I want to open an account for an active customer so that they can start banking with us."
+    acceptance:
+      - "POST /accounts takes customer ID, account type and initial deposit."
+      - "Rejected if the customer is inactive or the deposit is below the type's minimum balance; the response shows the required minimum."
+      - "A unique account number is generated."
+      - "The initial deposit is recorded as the account's first transaction, in the same DB transaction as account creation."
+      - "UI form with a confirmation step."
+    tasks:
+      - "Account number generator, core function, endpoint, UI, unit tests."
+  - id: S-17
+    epic: E-05
+    title: "Deposit money into an account"
+    points: 3
+    sprint: S1
+    set: m3
+    priority: high
+    refs: ["FR-6", "NFR-3", "TC-07"]
+    story: "As a Bank Officer, I want to deposit money into a customer's active account so that their balance reflects the cash received."
+    acceptance:
+      - "POST /transactions {type: deposit} accepts only positive amounts on active accounts."
+      - "The balance update, transaction record (amount, type, timestamp, resulting balance, operator ID) and audit entry are committed atomically."
+      - "Frozen or closed accounts are rejected with a clear reason."
+      - "UI shows a confirmation step before committing and a success/failure message after."
+      - "Unit tests include a forced failure that proves rollback."
+    tasks:
+      - "Transaction engine deposit function using DB transaction helpers."
+      - "Deposit form."
+  - id: S-18
+    epic: E-05
+    title: "Withdraw money with minimum-balance and daily-limit checks"
+    points: 5
+    sprint: S1
+    set: m3
+    priority: high
+    refs: ["FR-7", "NFR-3", "TBD-3", "TC-08"]
+    story: "As a Bank Officer, I want to withdraw money for a customer so that they can access their funds within the bank's rules."
+    acceptance:
+      - "Rejects amounts that would take the balance below the account type's minimum balance."
+      - "Rejects amounts that exceed the remaining daily withdrawal limit and states the remaining limit."
+      - "Rejected withdrawals leave the balance unchanged and give the specific reason."
+      - "Successful withdrawals are atomic with their transaction record and audit entry."
+      - "Boundary-value unit tests (exactly at minimum, one rupee below, exactly at the daily limit)."
+    tasks:
+      - "Daily total query, validation, withdrawal function, form."
+  - id: S-19
+    epic: E-06
+    title: "Transfer funds between two accounts atomically"
+    points: 5
+    sprint: S1
+    set: m3
+    priority: high
+    refs: ["FR-8", "NFR-3", "TC-09", "TC-10"]
+    story: "As a Bank Officer, I want to transfer money between two accounts so that both balances change together or not at all."
+    acceptance:
+      - "POST /transfers rejects same-account transfers, non-positive amounts, frozen/closed accounts and insufficient balance (minimum balance applies to the source)."
+      - "Debit, credit, two linked transaction records sharing a transfer reference, and audit entries are committed in one DB transaction."
+      - "A forced failure between debit and credit leaves both balances unchanged (test)."
+      - "UI form with a confirmation step showing both accounts."
+    tasks:
+      - "Transfer function, transfer reference generator, form, unit tests."
+  - id: S-20
+    epic: E-07
+    title: "View account balances"
+    points: 2
+    sprint: S1
+    set: m2
+    priority: high
+    refs: ["FR-9"]
+    story: "As a Customer, I want to see each of my accounts and its balance so that I know how much money I have."
+    acceptance:
+      - "GET /customers/me/accounts lists account number, type, status and balance for the logged-in customer."
+      - "GET /accounts/{acc}/balance works for any account for Bank Officers and only own accounts for Customers (403 otherwise)."
+      - "Accounts page in the customer UI."
+    tasks:
+      - "Endpoints, page, unit tests."
+  - id: S-26
+    epic: E-10
+    title: "Record every balance change in an append-only audit trail"
+    points: 3
+    sprint: S1
+    set: lead
+    priority: high
+    refs: ["NFR-5", "SEC-4", "TC-16"]
+    story: "As an Administrator, I want every balance change recorded with who did it so that all money movements are accountable."
+    acceptance:
+      - "audit::record(tx, operator, accounts, amount, action) is called inside the same DB transaction as each balance change."
+      - "The audit table has no update/delete code paths; a DB trigger blocks UPDATE and DELETE on it."
+      - "Each entry stores timestamp, accounts affected, amount, action and operator ID."
+      - "Used by deposit, withdrawal, transfer, account opening and interest crediting."
+    tasks:
+      - "Audit module, trigger, unit tests."
+  - id: S-37
+    epic: E-12
+    title: "Record and upload the Sprint 1 demo video"
+    points: 1
+    sprint: S1
+    set: lead
+    priority: high
+    refs: ["Deliverables Part-2, Sprint-1 g-h"]
+    story: "As the team, we want a one-minute video of the working Sprint 1 product so that progress is shown to the evaluator."
+    acceptance:
+      - "About 1 minute, shows login, customer registration, account opening, deposit, withdrawal and transfer working end to end."
+      - "Uploaded to the repository (demos/sprint-1.mp4 or a linked release asset) and linked from the README."
+    tasks:
+      - "Script the walkthrough, record, upload."
+
+  # ---------------------------------------------------------------- Sprint 2
+  - id: S-13
+    epic: E-03
+    title: "Deactivate a customer"
+    points: 2
+    sprint: S2
+    set: m2
+    priority: high
+    refs: ["FR-3", "SRS 5.5"]
+    story: "As an Administrator, I want to deactivate a customer so that no new accounts can be opened for them while their history is kept."
+    acceptance:
+      - "Deactivated customers are kept (never deleted) and shown as inactive."
+      - "Opening an account for an inactive customer is rejected."
+      - "A deactivated customer cannot log in."
+    tasks:
+      - "Status change endpoint, UI action, unit tests."
+  - id: S-14
+    epic: E-04
+    title: "Manage account types"
+    points: 3
+    sprint: S2
+    set: m2
+    priority: medium
+    refs: ["TBD-2", "TBD-3", "SRS 5.5"]
+    story: "As an Administrator, I want to define account types with their minimum balance, interest rate and daily withdrawal limit so that account rules are configurable."
+    acceptance:
+      - "GET/POST/PUT /account-types, Administrator only."
+      - "Validation: non-negative minimum balance and limit, interest rate between 0 and a sensible maximum."
+      - "Changes apply to later operations and do not rewrite past transactions."
+      - "Admin UI page."
+    tasks:
+      - "Endpoints, page, unit tests."
+  - id: S-16
+    epic: E-04
+    title: "Freeze, unfreeze and close accounts"
+    points: 3
+    sprint: S2
+    set: m2
+    priority: high
+    refs: ["FR-5", "TC-06"]
+    story: "As an authorised user, I want to freeze, unfreeze or close an account so that problem accounts are controlled and finished accounts are retired."
+    acceptance:
+      - "PATCH /accounts/{acc}/status supports freeze, unfreeze and close."
+      - "Frozen accounts reject deposits, withdrawals and transfers but stay viewable."
+      - "Close is allowed only at zero balance; otherwise the response asks for the balance to be withdrawn or transferred first."
+      - "Closed and frozen accounts and their history are never deleted."
+    tasks:
+      - "Status transitions, checks in the transaction engine, UI actions, unit tests."
+  - id: S-21
+    epic: E-07
+    title: "View transaction history with a date filter"
+    points: 3
+    sprint: S2
+    set: m2
+    priority: high
+    refs: ["FR-10", "TC-11"]
+    story: "As a Customer, I want to see my account's transactions newest first and filter them by date so that I can track my spending."
+    acceptance:
+      - "GET /accounts/{acc}/transactions?from=&to= returns entries in reverse chronological order with date-time, type, amount and resulting balance."
+      - "Customers requesting an account they do not hold get 403 and the attempt is recorded."
+      - "Bank Officers can view any account's history."
+      - "History page with a date range picker."
+    tasks:
+      - "Endpoint, page, unit tests."
+  - id: S-22
+    epic: E-08
+    title: "Run interest crediting for a period"
+    points: 5
+    sprint: S2
+    set: m3
+    priority: medium
+    refs: ["FR-11", "TBD-5", "TC-12"]
+    story: "As an Administrator, I want to run interest for a period so that eligible accounts are credited exactly once."
+    acceptance:
+      - "POST /interest/run {period} credits interest to every active account of an interest-bearing type, using the type's rate and the basis chosen for TBD-5."
+      - "Each credit is a transaction record plus audit entry."
+      - "Re-running the same period is rejected and creates no duplicate credits (interest_runs table)."
+      - "Unit tests check the calculation and the duplicate guard."
+    tasks:
+      - "Interest calculator, run endpoint, admin UI button, unit tests."
+  - id: S-23
+    epic: E-08
+    title: "Generate and export account statements"
+    points: 3
+    sprint: S2
+    set: m3
+    priority: medium
+    refs: ["FR-12"]
+    story: "As a Customer, I want a statement for a chosen period so that I have a record of my account activity."
+    acceptance:
+      - "GET /accounts/{acc}/statement?from=&to= returns opening balance, each transaction in the period, and closing balance."
+      - "A period with no transactions shows the unchanged balance and no entries."
+      - "The statement can be printed or downloaded (print-friendly page or CSV/PDF)."
+      - "Customers can only get statements for their own accounts."
+    tasks:
+      - "Statement query, endpoint, printable page, unit tests."
+  - id: S-24
+    epic: E-09
+    title: "Manage Bank Officer accounts"
+    points: 3
+    sprint: S2
+    set: m1
+    priority: medium
+    refs: ["FR-13", "TC-13"]
+    story: "As an Administrator, I want to create, update and deactivate Bank Officer accounts so that staff access matches who works at the bank."
+    acceptance:
+      - "POST/GET/PATCH /staff, Administrator only; new officers get initial credentials."
+      - "Deactivated officers cannot log in."
+      - "Deactivated officers' IDs remain on their past transactions and audit entries."
+      - "Staff management page."
+    tasks:
+      - "Endpoints, page, unit tests."
+  - id: S-25
+    epic: E-09
+    title: "Role-specific dashboards"
+    points: 5
+    sprint: S2
+    set: m1
+    priority: medium
+    refs: ["FR-14", "NFR-2"]
+    story: "As any user, I want a dashboard summarising what matters for my role so that I can start my work quickly."
+    acceptance:
+      - "Administrator: counts of customers, accounts and staff, and today's transaction totals."
+      - "Bank Officer: transactions they processed today, with quick links to transaction screens."
+      - "Customer: their accounts and balances, with links to history and statements."
+      - "GET /dashboard returns the data for the caller's role and loads within 3 seconds (NFR-2)."
+    tasks:
+      - "Dashboard endpoint and three dashboard pages."
+  - id: S-27
+    epic: E-10
+    title: "Audit trail viewer for Administrators"
+    points: 2
+    sprint: S2
+    set: lead
+    priority: medium
+    refs: ["NFR-5", "TC-16"]
+    story: "As an Administrator, I want to browse the audit trail so that I can investigate any balance change."
+    acceptance:
+      - "GET /audit (Administrator only) with date and account filters, read-only."
+      - "No API route exists to edit or delete audit entries; attempts return 405/403."
+      - "Audit page in the admin UI."
+    tasks:
+      - "Endpoint, page, test that edit/delete is refused."
+  - id: S-28
+    epic: E-10
+    title: "HTTPS configuration and secrets hygiene"
+    points: 2
+    sprint: S2
+    set: lead
+    priority: medium
+    refs: ["SRS 3.4", "SEC-3", "NFR-4"]
+    story: "As the bank, we want credentials and balances protected in transit and secrets kept out of the repository."
+    acceptance:
+      - "Server can run with TLS (certificate path from config); plain HTTP only for local development."
+      - "No secrets or real credentials committed; config read from environment or an untracked file."
+      - "Log review confirms passwords/PINs never appear in logs."
+    tasks:
+      - "TLS option, config loading, log check."
+  - id: S-29
+    epic: E-11
+    title: "Execute the Test Plan and write the test summary report"
+    points: 3
+    sprint: S2
+    set: m3
+    priority: medium
+    refs: ["Test Plan 6-8", "Test Plan 14"]
+    story: "As the team, we want every Test Plan test case executed and recorded so that we can show the product meets the SRS."
+    acceptance:
+      - "Each TC in the consolidated Test Plan is executed and its actual result and pass/fail recorded."
+      - "Defects are logged as GitHub issues with severity labels and linked to the TC."
+      - "docs/Test_Summary_Report.md summarises results."
+    tasks:
+      - "Execution log, defect issues, summary report."
+  - id: S-30
+    epic: E-11
+    title: "Verify performance targets"
+    points: 2
+    sprint: S2
+    set: m3
+    priority: medium
+    refs: ["NFR-1", "NFR-2", "TC-14"]
+    story: "As the team, we want to measure transaction and page-load times so that we can show NFR-1 and NFR-2 are met."
+    acceptance:
+      - "A script seeds about 2,000-3,000 accounts."
+      - "Deposit, withdrawal and transfer complete in under 2 seconds including persistence."
+      - "Dashboard, account list and history pages load in under 3 seconds."
+      - "Results recorded in the test summary report."
+    tasks:
+      - "Seed script, timing script, record results."
+  - id: S-31
+    epic: E-11
+    title: "Verify portability on two platforms and two browsers"
+    points: 2
+    sprint: S2
+    set: lead
+    priority: medium
+    refs: ["NFR-9"]
+    story: "As the team, we want the back end to build on Linux and Windows and the UI to work in Chrome and Firefox so that NFR-9 is met."
+    acceptance:
+      - "CI builds and tests on ubuntu-latest and windows-latest."
+      - "No platform-specific code paths in business logic."
+      - "Core flows checked manually in Chrome and Firefox and noted in the test summary report."
+    tasks:
+      - "Fix any Windows build issues, browser check."
+  - id: S-32
+    epic: E-11
+    title: "Run a usability walkthrough"
+    points: 1
+    sprint: S2
+    set: m1
+    priority: low
+    refs: ["NFR-6"]
+    story: "As the team, we want first-time users to complete core tasks unaided so that NFR-6 is verified."
+    acceptance:
+      - "At least three people who have not used the system each complete a Bank Officer deposit and a Customer history lookup on their first attempt."
+      - "Findings and any fixes are recorded in the test summary report."
+    tasks:
+      - "Prepare tasks, observe, record."
+  - id: S-33
+    epic: E-11
+    title: "Harden input validation and error handling"
+    points: 2
+    sprint: S2
+    set: m3
+    priority: medium
+    refs: ["NFR-7", "SADS 3.3", "TC-17"]
+    story: "As a user, I want clear error messages for bad input so that mistakes never crash the system or change data."
+    acceptance:
+      - "Every endpoint rejects empty required fields, non-numeric/negative amounts and unknown account numbers with a structured error."
+      - "Validation happens in both the API layer and the core."
+      - "Fuzz-style tests on transaction endpoints show no crash and no balance change."
+    tasks:
+      - "Review all endpoints, add missing validation, tests."
+  - id: S-34
+    epic: E-12
+    title: "Fix SRS gaps: use case diagram, security objectives, references"
+    points: 3
+    sprint: S2
+    set: m1
+    priority: medium
+    refs: ["SRS 5.3", "SRS Appendix B", "Deliverables Part-1"]
+    story: "As the team, we want the SRS to meet every Part-1 checklist item so that the final documentation is complete."
+    acceptance:
+      - "At least one UML use case diagram covering Administrator, Bank Officer and Customer is added (Appendix B)."
+      - "Section 5.3 gets a Security Objectives list (at least two) alongside NFR-4/NFR-5."
+      - "Course code made consistent (UE24CS341A vs UE23CS341A in References)."
+      - "Appendix B points to the ER diagram that now exists in design/."
+      - "Revision history updated to v1.1."
+    tasks:
+      - "Draw use case diagram, edit SRS, export PDF."
+  - id: S-35
+    epic: E-12
+    title: "Consolidate the Test Plan and test cases"
+    points: 3
+    sprint: S2
+    set: m1
+    priority: medium
+    refs: ["Test Plan 14", "FR-12", "FR-14", "FR-7"]
+    story: "As the team, we want one Test Plan with one set of test cases so that TC IDs mean the same thing everywhere."
+    acceptance:
+      - "The two standalone test-case documents are merged into Test Plan section 14 and removed from docs/ (their TC numbering conflicts)."
+      - "New TCs added for FR-12 statements, FR-14 dashboards, FR-7 daily limit, admin unlock, and NFR-2/NFR-6/NFR-9."
+      - "Traceability table covers every FR and NFR."
+      - "SRS date reference corrected (Test Plan cites 11/09/2026, SRS says 02/09/2026)."
+      - "TC-15 HTTPS wording fixed; Test Plan 5.1 lists TC-11 as a security case."
+    tasks:
+      - "Merge, renumber, add TCs, export PDF."
+  - id: S-36
+    epic: E-12
+    title: "Update the SADS: traceability, API and data design"
+    points: 2
+    sprint: S2
+    set: lead
+    priority: medium
+    refs: ["SADS 2.2", "SADS 2.3", "SADS 3.2", "SADS 3.4"]
+    story: "As the team, we want the design document to match what was built so that it can be used to explain the system in the final demo."
+    acceptance:
+      - "FR-9/FR-10 (balance and history) are assigned to a component and appear in the traceability matrix, along with the NFRs that are missing."
+      - "API table adds the endpoints that were built (user unlock, account types, customer accounts list, audit)."
+      - "Data design section links to the ER diagram in design/."
+      - "Concurrency/locking text matches the chosen database (SRS Appendix D lists record-level locking as future work)."
+    tasks:
+      - "Edit SADS, regenerate diagrams if needed."
+  - id: S-38
+    epic: E-12
+    title: "Record the Sprint 2 demo video and finish the README"
+    points: 2
+    sprint: S2
+    set: lead
+    priority: high
+    refs: ["Deliverables Part-2, Sprint-2 b-c"]
+    story: "As the team, we want a two-minute demo of the finished product and complete project documentation so that the project can be evaluated."
+    acceptance:
+      - "About 2 minutes, covers all three roles and the Sprint 2 features."
+      - "Uploaded to the repository and linked from the README."
+      - "README covers setup, build, run, seeded logins and project structure."
+    tasks:
+      - "Script, record, upload, README pass."
+  - id: S-39
+    epic: E-12
+    title: "Maintain the deviations log"
+    points: 1
+    sprint: S2
+    set: lead
+    priority: medium
+    refs: ["Deliverables Part-2, Sprint-1 i"]
+    story: "As the team, we want every deviation from the SRS, SADS and Test Plan written down so that we can explain it in the final demo."
+    acceptance:
+      - "docs/DEVIATIONS.md lists each deviation, the reason and the affected requirement or section."
+      - "Reviewed at the end of each sprint."
+    tasks:
+      - "Create the file; collect deviations from PRs."

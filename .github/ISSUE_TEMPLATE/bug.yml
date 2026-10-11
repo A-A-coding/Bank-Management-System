@@ -1,0 +1,28 @@
+name: Bug / defect
+description: Report a defect found while testing
+labels: ["bug"]
+body:
+  - type: input
+    id: tc
+    attributes:
+      label: Related test case / requirement
+      placeholder: "TC-08 / FR-7"
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options: [Critical, Major, Minor]
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected vs actual result
+    validations:
+      required: true

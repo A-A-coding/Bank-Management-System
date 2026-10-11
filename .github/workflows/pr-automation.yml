@@ -1,0 +1,58 @@
+name: PR Automation
+
+# Runs on pull_request_target so it also works for PRs opened from forks.
+# It never checks out or runs code from the PR.
+
+on:
+  pull_request_target:
+    types: [opened, edited, reopened, synchronize, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Assign the author
+        if: github.event.action == 'opened' || github.event.action == 'reopened'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            if (pr.assignees.length === 0 && pr.user.type !== 'Bot') {
+              await github.rest.issues.addAssignees({
+                ...context.repo, issue_number: pr.number, assignees: [pr.user.login],
+              });
+            }
+
+      - name: Label by changed files
+        uses: actions/labeler@v5
+        with:
+          configuration-path: .github/labeler.yml
+          sync-labels: false
+
+      - name: Check PR title and linked issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const problems = [];
+            // Squash-merge uses the PR title as the commit message, so the title
+            // carries the commit convention: type(scope): summary
+            const titleRe = /^(feat|fix|docs|test|refactor|chore|ci|build|perf|style)(\([\w\-\/]+\))?!?: .{3,}/;
+            if (!titleRe.test(pr.title)) {
+              problems.push('PR title must follow `type(scope): summary`, e.g. `feat(auth): add login endpoint`. ' +
+                'Types: feat, fix, docs, test, refactor, chore, ci, build, perf, style.');
+            }
+            const body = pr.body || '';
+            if (!/\b(close[sd]?|fix(e[sd])?|resolve[sd]?)\s+#\d+/i.test(body)) {
+              problems.push('PR description must link the story it completes, e.g. `Closes #23`.');
+            }
+            if (problems.length) {
+              core.setFailed(problems.join('\n'));
+            } else {
+              core.info('PR title and linked issue look good.');
+            }

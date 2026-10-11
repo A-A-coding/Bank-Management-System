@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Build & test (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        # NFR-9: the C/C++ core must build and run on Linux and Windows.
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for CMake project
+        id: cmake
+        shell: bash
+        run: |
+          if [ -f CMakeLists.txt ]; then echo "present=true" >> "$GITHUB_OUTPUT"
+          else echo "present=false" >> "$GITHUB_OUTPUT"; echo "::notice::No CMakeLists.txt yet - skipping build (see story S-02)."; fi
+
+      - name: Configure
+        if: steps.cmake.outputs.present == 'true'
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        if: steps.cmake.outputs.present == 'true'
+        run: cmake --build build --config Release --parallel
+
+      - name: Test
+        if: steps.cmake.outputs.present == 'true'
+        run: ctest --test-dir build -C Release --output-on-failure
