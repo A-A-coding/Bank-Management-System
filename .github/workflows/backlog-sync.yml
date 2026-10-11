@@ -45,4 +45,6 @@ jobs:
           script: |
             const yaml = require(`${process.env.RUNNER_TEMP}/deps/node_modules/js-yaml`);
             const sync = require(`${process.env.GITHUB_WORKSPACE}/.github/scripts/sync-backlog.js`);
-            await sync({ github, context, core, getOctokit, yaml });
+            // github-script v7 has no getOctokit helper; build a client from the same Octokit class.
+            const makeOctokit = (token) => new github.constructor({ auth: token });
+            await sync({ github, context, core, getOctokit: makeOctokit, yaml });

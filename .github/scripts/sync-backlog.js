@@ -295,15 +295,17 @@ module.exports = async ({ github, context, core, getOctokit, yaml }) => {
       { input: { projectId: project.id, name, ...input } },
     );
   };
+  const iterationConfiguration = {
+    startDate: backlog.sprints[0].start,
+    duration: backlog.sprints[0].days,
+    iterations: backlog.sprints.map((s) => ({ title: s.title, startDate: s.start, duration: s.days })),
+  };
   await ensureField('Story Points', { dataType: 'NUMBER' });
-  await ensureField('Sprint', {
-    dataType: 'ITERATION',
-    iterationConfiguration: {
-      startDate: backlog.sprints[0].start,
-      duration: backlog.sprints[0].days,
-      iterations: backlog.sprints.map((s) => ({ title: s.title, startDate: s.start, duration: s.days })),
-    },
-  });
+  // A board created from the "Iterative development" template already has an
+  // iteration field (named "Iteration"); reuse it instead of adding a second one.
+  if (!fields.some((f) => f.dataType === 'ITERATION')) {
+    await ensureField('Sprint', { dataType: 'ITERATION', iterationConfiguration });
+  }
   const colors = ['GRAY', 'PURPLE', 'GREEN', 'YELLOW', 'BLUE', 'ORANGE'];
   await ensureField('Task Set', {
     dataType: 'SINGLE_SELECT',
@@ -312,12 +314,23 @@ module.exports = async ({ github, context, core, getOctokit, yaml }) => {
   fields = await getFields();
 
   const spField = field('Story Points');
-  const sprintField = field('Sprint');
   const setField = field('Task Set');
-  const iterations = [
-    ...(sprintField.configuration.iterations || []),
-    ...(sprintField.configuration.completedIterations || []),
-  ];
+  const iterationFields = fields.filter((f) => f.dataType === 'ITERATION');
+  let sprintField = iterationFields.find((f) => f.name === 'Sprint') || iterationFields[0];
+  const iterationsOf = (f) => [...(f.configuration.iterations || []), ...(f.configuration.completedIterations || [])];
+
+  // Replace the template's default iterations with our sprint dates.
+  const haveTitles = new Set(iterationsOf(sprintField).map((it) => it.title));
+  if (!backlog.sprints.every((s) => haveTitles.has(s.title))) {
+    log(`set sprints on iteration field "${sprintField.name}"`);
+    await gql(
+      `mutation($input:UpdateProjectV2FieldInput!){ updateProjectV2Field(input:$input){ projectV2Field{ ... on ProjectV2FieldCommon { id } } } }`,
+      { input: { fieldId: sprintField.id, iterationConfiguration } },
+    );
+    fields = await getFields();
+    sprintField = fields.find((f) => f.id === sprintField.id);
+  }
+  const iterations = iterationsOf(sprintField);
   const iterationId = (title) => iterations.find((it) => it.title === title)?.id;
   const optionId = (name) => setField.options.find((o) => o.name === name)?.id;
 
