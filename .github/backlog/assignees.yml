@@ -1,0 +1,9 @@
+# Maps each task set in backlog.yml to the GitHub user who owns it.
+# Leave a value empty ("") to keep that set unassigned.
+# After changing this file, the Backlog Sync workflow assigns every story in the
+# set to that user.
+
+lead: "8bitGuitar"   # Aditya Vats (project lead)
+m1: ""               # Set 1 - Identity, Administration & UI
+m2: ""               # Set 2 - Customers & Accounts
+m3: ""               # Set 3 - Transactions & Reporting

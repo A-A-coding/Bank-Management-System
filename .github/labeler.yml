@@ -1,0 +1,33 @@
+"area: docs":
+  - changed-files:
+      - any-glob-to-any-file: ["docs/**", "design/**", "**/*.md"]
+"area: frontend":
+  - changed-files:
+      - any-glob-to-any-file: ["frontend/**"]
+"area: devops":
+  - changed-files:
+      - any-glob-to-any-file: [".github/**", "CMakeLists.txt", "cmake/**"]
+"area: testing":
+  - changed-files:
+      - any-glob-to-any-file: ["tests/**"]
+"area: auth":
+  - changed-files:
+      - any-glob-to-any-file: ["src/auth/**"]
+"area: customer":
+  - changed-files:
+      - any-glob-to-any-file: ["src/customer/**"]
+"area: account":
+  - changed-files:
+      - any-glob-to-any-file: ["src/account/**"]
+"area: transactions":
+  - changed-files:
+      - any-glob-to-any-file: ["src/transaction/**"]
+"area: reporting":
+  - changed-files:
+      - any-glob-to-any-file: ["src/reporting/**"]
+"area: staff":
+  - changed-files:
+      - any-glob-to-any-file: ["src/staff/**"]
+"area: security":
+  - changed-files:
+      - any-glob-to-any-file: ["src/audit/**"]

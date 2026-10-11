@@ -1,0 +1,32 @@
+name: Project Automation
+
+# Adds new issues and PRs to the org Project board. Needs the PROJECT_TOKEN
+# secret (classic PAT with project + repo scopes) and the PROJECT_NUMBER repo
+# variable; skipped when either is missing.
+
+on:
+  issues:
+    types: [opened, transferred]
+  pull_request_target:
+    types: [opened, reopened]
+
+permissions: {}
+
+jobs:
+  add-to-project:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for token
+        id: token
+        env:
+          PROJECT_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+          PROJECT_NUMBER: ${{ vars.PROJECT_NUMBER }}
+        run: |
+          if [ -n "$PROJECT_TOKEN" ] && [ -n "$PROJECT_NUMBER" ]; then echo "present=true" >> "$GITHUB_OUTPUT"
+          else echo "present=false" >> "$GITHUB_OUTPUT"; echo "::notice::PROJECT_TOKEN secret or PROJECT_NUMBER variable not set - skipping."; fi
+
+      - uses: actions/add-to-project@v1.0.2
+        if: steps.token.outputs.present == 'true'
+        with:
+          project-url: https://github.com/orgs/${{ github.repository_owner }}/projects/${{ vars.PROJECT_NUMBER }}
+          github-token: ${{ secrets.PROJECT_TOKEN }}
