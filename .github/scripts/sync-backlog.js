@@ -300,6 +300,18 @@ module.exports = async ({ github, context, core, getOctokit, yaml }) => {
     duration: backlog.sprints[0].days,
     iterations: backlog.sprints.map((s) => ({ title: s.title, startDate: s.start, duration: s.days })),
   };
+  // The "Iterative development" template ships a number field called
+  // "Estimate" that its board columns already total; rename it rather than
+  // adding a second number field.
+  const estimate = fields.find((f) => f.name === 'Estimate' && f.dataType === 'NUMBER');
+  if (!field('Story Points') && estimate) {
+    log('rename project field "Estimate" to "Story Points"');
+    await gql(
+      `mutation($input:UpdateProjectV2FieldInput!){ updateProjectV2Field(input:$input){ projectV2Field{ ... on ProjectV2FieldCommon { id } } } }`,
+      { input: { fieldId: estimate.id, name: 'Story Points' } },
+    );
+    fields = await getFields();
+  }
   await ensureField('Story Points', { dataType: 'NUMBER' });
   // A board created from the "Iterative development" template already has an
   // iteration field (named "Iteration"); reuse it instead of adding a second one.
